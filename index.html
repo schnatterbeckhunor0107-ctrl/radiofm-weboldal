@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RádióFM – A zene, ami veled van.</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7f5;
+    color: #172019;
+}
+
+/* =========================
+   FEJLÉC
+========================= */
+
+header {
+    width: 100%;
+    min-height: 82px;
+    background: #0b9d43;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.logo-icon {
+    font-size: 25px;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: #d9ffe7;
+}
+
+.live-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    background: white;
+    color: #0b9d43;
+
+    padding: 9px 15px;
+    border-radius: 30px;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.live-dot {
+    width: 9px;
+    height: 9px;
+
+    background: #e52525;
+    border-radius: 50%;
+}
+
+/* =========================
+   FŐOLDAL
+========================= */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #eafff0 50%,
+            #d9f8e4 100%
+        );
+}
+
+.hero h1 {
+    font-size: 70px;
+    margin-bottom: 12px;
+}
+
+.hero h1 span {
+    color: #0b9d43;
+}
+
+.hero > p {
+    color: #526057;
+    font-size: 21px;
+    margin-bottom: 35px;
+}
+
+/* =========================
+   LEJÁTSZÓ
+========================= */
+
+.player {
+    width: min(520px, 94%);
+
+    background: white;
+
+    border: 2px solid #bdeacb;
+    border-radius: 24px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 15px 45px rgba(11,157,67,0.12);
+
+    text-align: left;
+}
+
+.player-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+.on-air {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #0b9d43;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.on-air-dot {
+    width: 9px;
+    height: 9px;
+
+    background: #e52525;
+    border-radius: 50%;
+}
+
+.station {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.station-icon {
+    width: 75px;
+    height: 75px;
+
+    margin: auto;
+    margin-bottom: 15px;
+
+    border-radius: 50%;
+
+    background: #0b9d43;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 35px;
+}
+
+.station h2 {
+    font-size: 24px;
+}
+
+.station p {
+    margin-top: 6px;
+
+    color: #718078;
+    font-size: 14px;
+}
+
+/* =========================
+   MOST SZÓL
+========================= */
+
+.now-playing {
+    background: #f1faf4;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    margin-bottom: 22px;
+}
+
+.now-title {
+    color: #0b9d43;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.song {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.artist {
+    color: #6a746d;
+
+    margin-top: 5px;
+
+    font-size: 14px;
+}
+
+/* =========================
+   LEJÁTSZÓ GOMB
+========================= */
+
+.listen-button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    background: #0b9d43;
+    color: white;
+
+    border: none;
+
+    padding: 17px;
+
+    border-radius: 50px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.listen-button:hover {
+    background: #087f36;
+    transform: translateY(-2px);
+}
+
+.listen-button.playing {
+    background: #087f36;
+}
+
+/* =========================
+   HANGERŐ
+========================= */
+
+.volume-area {
+    margin-top: 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.volume-area span {
+    font-size: 18px;
+}
+
+.volume-area input {
+    width: 100%;
+
+    accent-color: #0b9d43;
+}
+
+/* =========================
+   SZEKCIÓ FEJLÉC
+========================= */
+
+.section-header {
+    max-width: 700px;
+
+    margin: 0 auto 45px;
+
+    text-align: center;
+}
+
+.section-label {
+    color: #0b9d43;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.section-header p {
+    color: #6a746d;
+    font-size: 17px;
+}
+
+/* =========================
+   MŰSORREND
+========================= */
+
+.schedule {
+    background: white;
+    padding: 80px 20px;
+}
+
+.schedule-list {
+    max-width: 800px;
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+
+    gap: 30px;
+
+    background: #f1faf4;
+
+    border: 1px solid #c9ecd4;
+
+    border-radius: 16px;
+
+    padding: 20px 25px;
+
+    transition: 0.2s;
+}
+
+.schedule-item:hover {
+    transform: translateX(5px);
+    border-color: #0b9d43;
+}
+
+.time {
+    min-width: 125px;
+
+    color: #0b9d43;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.time span {
+    color: #789082;
+    font-weight: normal;
+}
+
+.program {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.program strong {
+    font-size: 18px;
+}
+
+.program small {
+    color: #7a857e;
+}
+
+/* =========================
+   MŰSORVEZETŐK
+========================= */
+
+.presenters {
+    background: #eafff0;
+    padding: 90px 20px;
+}
+
+.presenter-grid {
+    max-width: 1050px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.presenter-card {
+    background: white;
+
+    border: 1px solid #c9ecd4;
+
+    border-radius: 22px;
+
+    padding: 35px 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px rgba(11,157,67,0.08);
+
+    transition: 0.25s;
+}
+
+.presenter-card:hover {
+    transform: translateY(-6px);
+    border-color: #0b9d43;
+}
+
+.presenter-photo {
+    width: 120px;
+    height: 120px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b9d43,
+            #16c95a
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 50px;
+
+    border: 6px solid #eafff0;
+}
+
+.presenter-card h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.presenter-role {
+    color: #0b9d43;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    margin-bottom: 12px;
+}
+
+.presenter-card p {
+    color: #718078;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.coming-soon {
+    display: inline-block;
+
+    margin-top: 18px;
+
+    padding: 7px 13px;
+
+    background: #eafff0;
+
+    color: #0b9d43;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* =========================
+   RÓLUNK
+========================= */
+
+.about {
+    background: white;
+    padding: 90px 20px;
+}
+
+.about-container {
+    max-width: 1050px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+
+    align-items: center;
+}
+
+.about-text h2 {
+    font-size: 42px;
+    margin-bottom: 18px;
+}
+
+.about-text h2 span {
+    color: #0b9d43;
+}
+
+.about-text p {
+    color: #607067;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    margin-bottom: 15px;
+}
+
+.about-box {
+    background:
+        linear-gradient(
+            135deg,
+            #0b9d43,
+            #16c95a
+        );
+
+    color: white;
+
+    border-radius: 25px;
+
+    padding: 45px;
+
+    box-shadow:
+        0 15px 40px rgba(11,157,67,0.2);
+
+    text-align: center;
+}
+
+.about-box-icon {
+    font-size: 65px;
+    margin-bottom: 20px;
+}
+
+.about-box h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.about-box p {
+    color: #eafff0;
+    line-height: 1.6;
+}
+
+/* =========================
+   KAPCSOLAT
+========================= */
+
+.contact {
+    background: #eafff0;
+    padding: 90px 20px;
+}
+
+.contact-container {
+    max-width: 1050px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 0.8fr 1.2fr;
+
+    gap: 50px;
+}
+
+.contact-info {
+    background: #0b9d43;
+
+    color: white;
+
+    border-radius: 25px;
+
+    padding: 40px;
+}
+
+.contact-info h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.contact-info > p {
+    color: #eafff0;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.2);
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: #0b9d43;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+.contact-item strong {
+    display: block;
+
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.contact-item span {
+    color: #eafff0;
+    font-size: 14px;
+}
+
+.contact-form {
+    background: white;
+
+    border: 1px solid #c9ecd4;
+
+    border-radius: 25px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 10px 30px rgba(11,157,67,0.08);
+}
+
+.contact-form h3 {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    border: 1px solid #c9ecd4;
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #0b9d43;
+
+    box-shadow:
+        0 0 0 3px rgba(11,157,67,0.08);
+}
+
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.send-button {
+    width: 100%;
+
+    border: none;
+
+    background: #0b9d43;
+
+    color: white;
+
+    padding: 16px;
+
+    border-radius: 50px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.send-button:hover {
+    background: #087f36;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   LÁBLÉC
+========================= */
+
+footer {
+    background: #0b9d43;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 35px 20px;
+
+    font-size: 14px;
+}
+
+.footer-title {
+    font-size: 22px;
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+/* =========================
+   MOBIL
+========================= */
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 18px 20px;
+
+        flex-wrap: wrap;
+
+        gap: 15px;
+    }
+
+    nav {
+        order: 3;
+
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 16px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .hero > p {
+        font-size: 18px;
+    }
+
+    .player {
+        padding: 22px;
+    }
+
+    .presenter-grid {
+        grid-template-columns: 1fr;
+
+        max-width: 500px;
+    }
+
+    .about-container,
+    .contact-container {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .section-header h2,
+    .about-text h2 {
+        font-size: 34px;
+    }
+
+    .schedule-item {
+        gap: 15px;
+        padding: 18px;
+    }
+
+    .time {
+        min-width: 95px;
+        font-size: 15px;
+    }
+
+    .program strong {
+        font-size: 16px;
+    }
+
+    .about-box,
+    .contact-info,
+    .contact-form {
+        padding: 30px 20px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     FEJLÉC
+========================= -->
+
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">📻</div>
+        RádióFM
+    </div>
+
+    <nav>
+        <a href="#fooldal">Főoldal</a>
+        <a href="#musorrend">Műsorrend</a>
+        <a href="#musorvezetok">Műsorvezetők</a>
+        <a href="#rolunk">Rólunk</a>
+        <a href="#kapcsolat">Kapcsolat</a>
+    </nav>
+
+    <div class="live-status">
+        <div class="live-dot"></div>
+        ÉLŐ ADÁS
+    </div>
+
+</header>
+
+
+<!-- =========================
+     FŐOLDAL
+========================= -->
+
+<section class="hero" id="fooldal">
+
+    <h1>
+        Rádió<span>FM</span>
+    </h1>
+
+    <p>
+        A zene, ami veled van.
+    </p>
+
+
+    <div class="player">
+
+        <div class="player-top">
+
+            <div class="on-air">
+                <div class="on-air-dot"></div>
+                ÉLŐ ADÁS
+            </div>
+
+        </div>
+
+
+        <div class="station">
+
+            <div class="station-icon">
+                📻
+            </div>
+
+            <h2>
+                RádióFM
+            </h2>
+
+            <p>
+                Online rádió
+            </p>
+
+        </div>
+
+
+        <!-- MOST SZÓL -->
+
+        <div class="now-playing">
+
+            <div class="now-title">
+                🎵 MOST SZÓL
+            </div>
+
+            <div class="song" id="songTitle">
+                RádióFM
+            </div>
+
+            <div class="artist" id="artistName">
+                Élő adás
+            </div>
+
+        </div>
+
+
+        <!-- VALÓDI STREAM -->
+
+        <audio
+            id="radioPlayer"
+            preload="none"
+        >
+
+            <source
+                src="https://sapircast.caster.fm:13518/kuu4i"
+                type="audio/mpeg"
+            >
+
+        </audio>
+
+
+        <!-- LEJÁTSZÁS -->
+
+        <button
+            type="button"
+            class="listen-button"
+            id="listenButton"
+        >
+            ▶ HALLGATOM
+        </button>
+
+
+        <!-- HANGERŐ -->
+
+        <div class="volume-area">
+
+            <span>
+                🔊
+            </span>
+
+            <input
+                type="range"
+                id="volumeControl"
+                min="0"
+                max="1"
+                step="0.01"
+                value="1"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MŰSORREND
+========================= -->
+
+<section class="schedule" id="musorrend">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            📅 RÁDIÓFM
+        </div>
+
+        <h2>
+            Műsorrend
+        </h2>
+
+        <p>
+            Hamarosan érkeznek a RádióFM saját műsorai.
+        </p>
+
+    </div>
+
+
+    <div class="schedule-list">
+
+        <div class="schedule-item">
+
+            <div class="time">
+                06:00 <span>– 10:00</span>
+            </div>
+
+            <div class="program">
+
+                <strong>
+                    Reggeli műsor
+                </strong>
+
+                <small>
+                    Hamarosan...
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="schedule-item">
+
+            <div class="time">
+                10:00 <span>– 14:00</span>
+            </div>
+
+            <div class="program">
+
+                <strong>
+                    RádióFM Zene
+                </strong>
+
+                <small>
+                    Hamarosan...
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="schedule-item">
+
+            <div class="time">
+                14:00 <span>– 18:00</span>
+            </div>
+
+            <div class="program">
+
+                <strong>
+                    Délutáni műsor
+                </strong>
+
+                <small>
+                    Hamarosan...
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="schedule-item">
+
+            <div class="time">
+                18:00 <span>– 22:00</span>
+            </div>
+
+            <div class="program">
+
+                <strong>
+                    RádióFM Este
+                </strong>
+
+                <small>
+                    Hamarosan...
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="schedule-item">
+
+            <div class="time">
+                22:00 <span>– 06:00</span>
+            </div>
+
+            <div class="program">
+
+                <strong>
+                    Éjszakai zene
+                </strong>
+
+                <small>
+                    Hamarosan...
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MŰSORVEZETŐK
+========================= -->
+
+<section class="presenters" id="musorvezetok">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            🎙️ RÁDIÓFM CSAPAT
+        </div>
+
+        <h2>
+            Műsorvezetők
+        </h2>
+
+        <p>
+            Ismerd meg hamarosan a RádióFM műsorvezetőit!
+        </p>
+
+    </div>
+
+
+    <div class="presenter-grid">
+
+
+        <div class="presenter-card">
+
+            <div class="presenter-photo">
+                🎙️
+            </div>
+
+            <h3>
+                Műsorvezető #1
+            </h3>
+
+            <div class="presenter-role">
+                RádióFM
+            </div>
+
+            <p>
+                A műsorvezető bemutatkozása hamarosan érkezik.
+            </p>
+
+            <div class="coming-soon">
+                HAMAROSAN
+            </div>
+
+        </div>
+
+
+        <div class="presenter-card">
+
+            <div class="presenter-photo">
+                🎙️
+            </div>
+
+            <h3>
+                Műsorvezető #2
+            </h3>
+
+            <div class="presenter-role">
+                RádióFM
+            </div>
+
+            <p>
+                A műsorvezető bemutatkozása hamarosan érkezik.
+            </p>
+
+            <div class="coming-soon">
+                HAMAROSAN
+            </div>
+
+        </div>
+
+
+        <div class="presenter-card">
+
+            <div class="presenter-photo">
+                🎙️
+            </div>
+
+            <h3>
+                Műsorvezető #3
+            </h3>
+
+            <div class="presenter-role">
+                RádióFM
+            </div>
+
+            <p>
+                A műsorvezető bemutatkozása hamarosan érkezik.
+            </p>
+
+            <div class="coming-soon">
+                HAMAROSAN
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RÓLUNK
+========================= -->
+
+<section class="about" id="rolunk">
+
+    <div class="about-container">
+
+
+        <div class="about-text">
+
+            <div class="section-label">
+                📻 RÁDIÓFM
+            </div>
+
+            <h2>
+                A zene, ami <span>veled van.</span>
+            </h2>
+
+            <p>
+                A RádióFM célja, hogy jó zenével,
+                kellemes hangulattal és folyamatos
+                online rádiózással legyen melletted.
+            </p>
+
+            <p>
+                Az oldal folyamatosan fejlődik,
+                így hamarosan új műsorokkal,
+                műsorvezetőkkel és további
+                tartalmakkal bővül.
+            </p>
+
+        </div>
+
+
+        <div class="about-box">
+
+            <div class="about-box-icon">
+                📻
+            </div>
+
+            <h3>
+                RádióFM
+            </h3>
+
+            <p>
+                Hallgasd velünk a zenét,
+                bárhol és bármikor.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     KAPCSOLAT
+========================= -->
+
+<section class="contact" id="kapcsolat">
+
+    <div class="section-header">
+
+        <div class="section-label">
+            💬 RÁDIÓFM
+        </div>
+
+        <h2>
+            Kapcsolat
+        </h2>
+
+        <p>
+            Vedd fel velünk a kapcsolatot!
+        </p>
+
+    </div>
+
+
+    <div class="contact-container">
+
+
+        <div class="contact-info">
+
+            <h3>
+                Lépj kapcsolatba velünk!
+            </h3>
+
+            <p>
+                Ha szeretnél kapcsolatba lépni
+                a RádióFM csapatával, hamarosan
+                itt megtalálod az elérhetőségeinket.
+            </p>
+
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    ✉️
+                </div>
+
+                <div>
+
+                    <strong>
+                        E-mail
+                    </strong>
+
+                    <span>
+                        Hamarosan...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    📱
+                </div>
+
+                <div>
+
+                    <strong>
+                        Telefon
+                    </strong>
+
+                    <span>
+                        Hamarosan...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    🌐
+                </div>
+
+                <div>
+
+                    <strong>
+                        Közösségi média
+                    </strong>
+
+                    <span>
+                        Hamarosan...
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="contact-form">
+
+            <h3>
+                Küldj üzenetet
+            </h3>
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    Neved
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Írd be a neved"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    E-mail címed
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Írd be az e-mail címed"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="message">
+                    Üzeneted
+                </label>
+
+                <textarea
+                    id="message"
+                    placeholder="Írd ide az üzeneted..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="send-button"
+                onclick="alert('Az üzenetküldés hamarosan elérhető lesz!')"
+            >
+                ✉ ÜZENET KÜLDÉSE
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LÁBLÉC
+========================= -->
+
+<footer>
+
+    <div class="footer-title">
+        📻 RádióFM
+    </div>
+
+    A zene, ami veled van.
+
+    <br><br>
+
+    © 2026 RádióFM
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+const player =
+    document.getElementById("radioPlayer");
+
+const button =
+    document.getElementById("listenButton");
+
+const volume =
+    document.getElementById("volumeControl");
+
+const songTitle =
+    document.getElementById("songTitle");
+
+const artistName =
+    document.getElementById("artistName");
+
+
+/* =========================
+   LEJÁTSZÁS
+========================= */
+
+button.addEventListener("click", function() {
+
+    if (player.paused) {
+
+        player.play()
+
+        .then(function() {
+
+            button.innerHTML = "⏸ SZÜNET";
+
+            button.classList.add("playing");
+
+            songTitle.innerHTML =
+                "RádióFM – Élő adás";
+
+            artistName.innerHTML =
+                "Most a RádióFM szól";
+
+        })
+
+        .catch(function(error) {
+
+            console.log(error);
+
+            alert(
+                "A rádiót nem sikerült elindítani. Próbáld meg újra."
+            );
+
+        });
+
+    } else {
+
+        player.pause();
+
+        button.innerHTML = "▶ HALLGATOM";
+
+        button.classList.remove("playing");
+
+        songTitle.innerHTML =
+            "RádióFM";
+
+        artistName.innerHTML =
+            "Lejátszás szüneteltetve";
+
+    }
+
+});
+
+
+/* =========================
+   HANGERŐ
+========================= */
+
+volume.addEventListener("input", function() {
+
+    player.volume = volume.value;
+
+});
+
+
+/* =========================
+   HIBA
+========================= */
+
+player.addEventListener("error", function() {
+
+    button.innerHTML = "▶ HALLGATOM";
+
+    button.classList.remove("playing");
+
+    songTitle.innerHTML =
+        "RádióFM";
+
+    artistName.innerHTML =
+        "A stream jelenleg nem érhető el";
+
+});
+
+
+/* =========================
+   LEÁLLÁS
+========================= */
+
+player.addEventListener("ended", function() {
+
+    button.innerHTML = "▶ HALLGATOM";
+
+    button.classList.remove("playing");
+
+});
+
+
+</script>
+
+
+</body>
+</html>
